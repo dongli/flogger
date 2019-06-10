@@ -89,4 +89,30 @@ contains
 
   end subroutine log_error
 
+  subroutine log_print_diag(prefix)
+
+    character(*), intent(in) :: prefix
+
+    type(hash_table_iterator_type) iter
+
+    write(6, '(A)', advance='no') colorize('==> ', color_fg='blue') // trim(prefix)
+
+    iter = hash_table_iterator(diags)
+    do while (.not. iter%ended())
+      select type (value => iter%value)
+      type is (integer)
+        write(6, '(X, A)', advance='no') trim(to_string(value))
+      type is (real(4))
+        write(6, '(X, A)', advance='no') trim(to_string(value, 20))
+      type is (real(8))
+        write(6, '(X, A)', advance='no') trim(to_string(value, 20))
+      class default
+        write(6, '(X, A)', advance='no') iter%key
+      end select
+      call iter%next()
+    end do
+    write(6, *)
+
+  end subroutine log_print_diag
+
 end module log_mod
