@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project(flogger LANGUAGES Fortran)
 
+set(CMAKE_Fortran_MODULE_DIRECTORY "${CMAKE_BINARY_DIR}")
+
 if (EXISTS ${PROJECT_SOURCE_DIR}/lib/container/CMakeLists.txt)
   add_subdirectory(lib/container)
 endif ()
