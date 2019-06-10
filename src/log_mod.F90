@@ -13,6 +13,7 @@ module log_mod
   public log_notice
   public log_warning
   public log_error
+  public log_print_diag
 
   type(hash_table_type) diags
 
