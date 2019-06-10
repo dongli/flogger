@@ -32,8 +32,6 @@ contains
     character(*), intent(in) :: name
     class(*), intent(in) :: value
 
-    call diags%insert(name, value)
-
     select type (value)
     type is (integer)
     type is (real(4))
@@ -41,6 +39,8 @@ contains
     class default
       call log_error('Unsupported diagnostic value type!')
     end select
+
+    call diags%insert(name, value)
 
   end subroutine log_add_diag
 
@@ -51,10 +51,9 @@ contains
     integer, intent(in), optional :: line
 
     if (present(file) .and. present(line)) then
-      write(6, *) '[' // colorize('Notice', color_fg='green') // ']: ' // &
-                  trim(file) // ':' // trim(to_string(line)) // ': ' // trim(message)
+      write(6, '("[", A, "]: ", A, ":", I0, ": ", A)') colorize('Notice', color_fg='green'), trim(file), line, trim(message)
     else
-      write(6, *) '[Notice]: ' // trim(message)
+      write(6, '("[", A, "]: ", A)') colorize('Notice', color_fg='green'), trim(message)
     end if
 
   end subroutine log_notice
@@ -66,10 +65,9 @@ contains
     integer, intent(in), optional :: line
 
     if (present(file) .and. present(line)) then
-      write(6, *) '[' // colorize('Warning', color_fg='yellow') // ']: ' // &
-                  trim(file) // ':' // trim(to_string(line)) // ': ' // trim(message)
+      write(6, '("[", A, "]: ", A, ":", I0, ": ", A)') colorize('Warning', color_fg='yellow'), trim(file), line, trim(message)
     else
-      write(6, *) '[Warning]: ' // trim(message)
+      write(6, '("[", A, "]: ", A)') colorize('Warning', color_fg='yellow'), trim(message)
     end if
 
   end subroutine log_warning
@@ -81,10 +79,9 @@ contains
     integer, intent(in), optional :: line
 
     if (present(file) .and. present(line)) then
-      write(6, *) '[' // colorize('Error', color_fg='red') // ']: ' // &
-                  trim(file) // ':' // trim(to_string(line)) // ': ' // trim(message)
+      write(6, '("[", A, "]: ", A, ":", I0, ": ", A)') colorize('Error', color_fg='red'), trim(file), line, trim(message)
     else
-      write(6, *) '[' // colorize('Error', color_fg='red') // ']: ' // trim(message)
+      write(6, '("[", A, "]: ", A)') colorize('Error', color_fg='red'), trim(message)
     end if
     stop 1
 
