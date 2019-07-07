@@ -14,6 +14,7 @@ module log_mod
   public log_warning
   public log_error
   public log_print_diag
+  public log_print
 
   type(hash_table_type) diags
 
@@ -112,5 +113,13 @@ contains
     write(6, *)
 
   end subroutine log_print_diag
+
+  subroutine log_print(message)
+
+    character(*), intent(in) :: message
+
+    write(6, '(A)') colorize('==> ', color_fg='blue') // trim(message)
+
+  end subroutine log_print
 
 end module log_mod
