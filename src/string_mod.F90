@@ -6,6 +6,7 @@ module string_mod
 
   public to_string
   public string_split
+  public string_count
   public string_replace
   public string_delete
 
@@ -143,6 +144,36 @@ contains
     end if
 
   end function string_split
+
+  integer function string_count(x, substr) result(res)
+
+    character(*), intent(in) :: x
+    character(*), intent(in), optional :: substr
+
+    character(:), allocatable :: substr_
+    integer start_pos, end_pos, count
+
+    if (present(substr)) then
+      substr_ = substr
+    else
+      substr_ = ' '
+    end if
+    start_pos = 1
+    end_pos = 1
+    count = 0
+    do
+      end_pos = index(trim(x(start_pos:)), substr_)
+      if (end_pos == 0) then
+        end_pos = len(x) + 1
+        exit
+      end if
+      count = count + 1
+      end_pos = end_pos + start_pos - 1
+      start_pos = end_pos + 1
+    end do
+    res = count
+
+  end function string_count
 
   function string_replace(x, substr, newstr) result(res)
 
