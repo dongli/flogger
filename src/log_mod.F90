@@ -1,7 +1,7 @@
 module log_mod
 
   use hash_table_mod
-  use string_mod
+  use string
   use face
 
   implicit none
