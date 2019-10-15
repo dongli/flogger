@@ -4,10 +4,11 @@ project(flogger LANGUAGES Fortran)
 
 set(CMAKE_Fortran_MODULE_DIRECTORY "${CMAKE_BINARY_DIR}")
 
-if (EXISTS ${PROJECT_SOURCE_DIR}/lib/container/CMakeLists.txt)
+get_directory_property(parent_dir PARENT_DIRECTORY)
+if (EXISTS ${PROJECT_SOURCE_DIR}/lib/container/CMakeLists.txt AND NOT parent_dir)
   add_subdirectory(lib/container)
 endif ()
-if (EXISTS ${PROJECT_SOURCE_DIR}/lib/string/CMakeLists.txt)
+if (EXISTS ${PROJECT_SOURCE_DIR}/lib/string/CMakeLists.txt AND NOT parent_dir)
   add_subdirectory(lib/string)
 endif ()
 
