@@ -102,9 +102,9 @@ contains
       type is (integer)
         write(6, '(X, A)', advance='no') trim(to_string(value))
       type is (real(4))
-        write(6, '(X, A)', advance='no') trim(to_string(value, 20))
+        write(6, '(X, A)', advance='no') trim(to_string(value, 14, 20))
       type is (real(8))
-        write(6, '(X, A)', advance='no') trim(to_string(value, 20))
+        write(6, '(X, A)', advance='no') trim(to_string(value, 14, 20))
       class default
         write(6, '(X, A)', advance='no') iter%key
       end select
