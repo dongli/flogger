@@ -24,8 +24,6 @@ contains
 
     diags = hash_table()
 
-    call log_notice('Log module is initialized.')
-
   end subroutine log_init
 
   subroutine log_add_diag(name, value)
