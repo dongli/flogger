@@ -49,10 +49,21 @@ contains
     character(*), intent(in), optional :: file
     integer, intent(in), optional :: line
 
+    logical is_redirected
+    is_redirected = .not. isatty(6)
+
     if (present(file) .and. present(line)) then
-      write(6, '("[", A, "]: ", A, ":", I0, ": ", A)') colorize('Notice', color_fg='green'), trim(file), line, trim(message)
+      if (is_redirected) then
+        write(6, '("[", A, "]: ", A, ":", I0, ": ", A)') 'Notice', trim(file), line, trim(message)
+      else
+        write(6, '("[", A, "]: ", A, ":", I0, ": ", A)') colorize('Notice', color_fg='green'), trim(file), line, trim(message)
+      end if
     else
-      write(6, '("[", A, "]: ", A)') colorize('Notice', color_fg='green'), trim(message)
+      if (is_redirected) then
+        write(6, '("[", A, "]: ", A)') 'Notice', trim(message)
+      else
+        write(6, '("[", A, "]: ", A)') colorize('Notice', color_fg='green'), trim(message)
+      end if
     end if
 
   end subroutine log_notice
@@ -63,10 +74,21 @@ contains
     character(*), intent(in), optional :: file
     integer, intent(in), optional :: line
 
+    logical is_redirected
+    is_redirected = .not. isatty(6)
+
     if (present(file) .and. present(line)) then
-      write(6, '("[", A, "]: ", A, ":", I0, ": ", A)') colorize('Warning', color_fg='yellow'), trim(file), line, trim(message)
+      if (is_redirected) then
+        write(6, '("[", A, "]: ", A, ":", I0, ": ", A)') 'Warning', trim(file), line, trim(message)
+      else
+        write(6, '("[", A, "]: ", A, ":", I0, ": ", A)') colorize('Warning', color_fg='yellow'), trim(file), line, trim(message)
+      end if
     else
-      write(6, '("[", A, "]: ", A)') colorize('Warning', color_fg='yellow'), trim(message)
+      if (is_redirected) then
+        write(6, '("[", A, "]: ", A)') 'Warning', trim(message)
+      else
+        write(6, '("[", A, "]: ", A)') colorize('Warning', color_fg='yellow'), trim(message)
+      end if
     end if
 
   end subroutine log_warning
@@ -77,10 +99,21 @@ contains
     character(*), intent(in), optional :: file
     integer, intent(in), optional :: line
 
+    logical is_redirected
+    is_redirected = .not. isatty(6)
+
     if (present(file) .and. present(line)) then
-      write(6, '("[", A, "]: ", A, ":", I0, ": ", A)') colorize('Error', color_fg='red'), trim(file), line, trim(message)
+      if (is_redirected) then
+        write(6, '("[", A, "]: ", A, ":", I0, ": ", A)') 'Error', trim(file), line, trim(message)
+      else
+        write(6, '("[", A, "]: ", A, ":", I0, ": ", A)') colorize('Error', color_fg='red'), trim(file), line, trim(message)
+      end if
     else
-      write(6, '("[", A, "]: ", A)') colorize('Error', color_fg='red'), trim(message)
+      if (is_redirected) then
+        write(6, '("[", A, "]: ", A)') 'Error', trim(message)
+      else
+        write(6, '("[", A, "]: ", A)') colorize('Error', color_fg='red'), trim(message)
+      end if
     end if
     stop 1
 
@@ -92,7 +125,14 @@ contains
 
     type(hash_table_iterator_type) iter
 
-    write(6, '(A)', advance='no') colorize('==> ', color_fg='blue') // trim(prefix)
+    logical is_redirected
+    is_redirected = .not. isatty(6)
+
+    if (is_redirected) then
+      write(6, '(A)', advance='no') '==> ' // trim(prefix)
+    else
+      write(6, '(A)', advance='no') colorize('==> ', color_fg='blue') // trim(prefix)
+    end if
 
     iter = hash_table_iterator(diags)
     do while (.not. iter%ended())
@@ -116,7 +156,14 @@ contains
 
     character(*), intent(in) :: message
 
-    write(6, '(A)') colorize('==> ', color_fg='blue') // trim(message)
+    logical is_redirected
+    is_redirected = .not. isatty(6)
+
+    if (is_redirected) then
+      write(6, '(A)') '==> ' // trim(message)
+    else
+      write(6, '(A)') colorize('==> ', color_fg='blue') // trim(message)
+    end if
 
   end subroutine log_print
 
