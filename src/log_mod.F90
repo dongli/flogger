@@ -3,6 +3,9 @@ module log_mod
   use hash_table_mod
   use string
   use face
+#ifdef INTEL
+  use ifport
+#endif
 
   implicit none
 

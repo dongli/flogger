@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 2.8)
 
 project(flogger LANGUAGES Fortran)
 
+if (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
+  add_definitions(-DINTEL)
+endif ()
+
 set(CMAKE_Fortran_MODULE_DIRECTORY "${CMAKE_BINARY_DIR}")
 
 get_directory_property(parent_dir PARENT_DIRECTORY)
