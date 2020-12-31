@@ -52,6 +52,7 @@ contains
     character(*), intent(in), optional :: file
     integer, intent(in), optional :: line
 
+    logical isatty
     logical is_redirected
     is_redirected = .not. isatty(6)
 
@@ -77,6 +78,7 @@ contains
     character(*), intent(in), optional :: file
     integer, intent(in), optional :: line
 
+    logical isatty
     logical is_redirected
     is_redirected = .not. isatty(6)
 
@@ -102,6 +104,7 @@ contains
     character(*), intent(in), optional :: file
     integer, intent(in), optional :: line
 
+    logical isatty
     logical is_redirected
     is_redirected = .not. isatty(6)
 
@@ -128,6 +131,7 @@ contains
 
     type(hash_table_iterator_type) iter
 
+    logical isatty
     logical is_redirected
     is_redirected = .not. isatty(6)
 
@@ -141,11 +145,11 @@ contains
     do while (.not. iter%ended())
       select type (value => iter%value)
       type is (integer)
-        write(6, '(X, A)', advance='no') trim(to_string(value))
+        write(6, '(X, A)', advance='no') trim(to_str(value))
       type is (real(4))
-        write(6, '(X, A)', advance='no') trim(to_string(value, 14, 20))
+        write(6, '(X, A)', advance='no') trim(to_str(value, 14, 20))
       type is (real(8))
-        write(6, '(X, A)', advance='no') trim(to_string(value, 14, 20))
+        write(6, '(X, A)', advance='no') trim(to_str(value, 14, 20))
       class default
         write(6, '(X, A)', advance='no') iter%key
       end select
@@ -159,6 +163,7 @@ contains
 
     character(*), intent(in) :: message
 
+    logical isatty
     logical is_redirected
     is_redirected = .not. isatty(6)
 
