@@ -46,16 +46,20 @@ contains
 
   end subroutine log_add_diag
 
-  subroutine log_notice(message, file, line)
+  subroutine log_notice(message, file, line, pid)
 
     character(*), intent(in) :: message
     character(*), intent(in), optional :: file
     integer, intent(in), optional :: line
+    integer, intent(in), optional :: pid
 
     logical isatty
     logical is_redirected
     is_redirected = .not. isatty(6)
 
+    if (present(pid)) then
+      if (pid /= 0) return
+    end if
     if (present(file) .and. present(line)) then
       if (is_redirected) then
         write(6, '("[", A, "]: ", A, ":", I0, ": ", A)') 'Notice', trim(file), line, trim(message)
